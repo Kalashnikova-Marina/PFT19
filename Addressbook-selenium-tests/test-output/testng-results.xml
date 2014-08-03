@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="2" passed="2">
+<testng-results skipped="0" failed="0" total="4" passed="4">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="15704" started-at="2014-07-28T17:06:34Z" finished-at="2014-07-28T17:06:49Z">
+  <suite name="Default suite" duration-ms="19778" started-at="2014-08-03T07:12:17Z" finished-at="2014-08-03T07:12:37Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="15704" started-at="2014-07-28T17:06:34Z" finished-at="2014-07-28T17:06:49Z">
+    <test name="Default test" duration-ms="19778" started-at="2014-08-03T07:12:17Z" finished-at="2014-08-03T07:12:37Z">
       <class name="com.example.tests.GroupCreationTests">
-        <test-method status="PASS" signature="setUp()[pri:0, instance:com.example.tests.GroupCreationTests@f598d5f]" name="setUp" is-config="true" duration-ms="10246" started-at="2014-07-28T21:06:34Z" finished-at="2014-07-28T21:06:44Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="createEmptyGroup()[pri:0, instance:com.example.tests.GroupCreationTests@f598d5f]" name="createEmptyGroup" duration-ms="2777" started-at="2014-07-28T21:06:44Z" finished-at="2014-07-28T21:06:47Z">
+        <test-method status="PASS" signature="createEmptyGroup()[pri:0, instance:com.example.tests.GroupCreationTests@5e0b66ca]" name="createEmptyGroup" duration-ms="1418" started-at="2014-08-03T11:12:34Z" finished-at="2014-08-03T11:12:35Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- createEmptyGroup -->
-        <test-method status="PASS" signature="createNonEmptyGroup()[pri:0, instance:com.example.tests.GroupCreationTests@f598d5f]" name="createNonEmptyGroup" duration-ms="2435" started-at="2014-07-28T21:06:47Z" finished-at="2014-07-28T21:06:49Z">
+        <test-method status="PASS" signature="createNonEmptyGroup()[pri:0, instance:com.example.tests.GroupCreationTests@5e0b66ca]" name="createNonEmptyGroup" duration-ms="1334" started-at="2014-08-03T11:12:35Z" finished-at="2014-08-03T11:12:36Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- createNonEmptyGroup -->
-        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.example.tests.GroupCreationTests@f598d5f]" name="tearDown" is-config="true" duration-ms="234" started-at="2014-07-28T21:06:49Z" finished-at="2014-07-28T21:06:49Z">
+      </class> <!-- com.example.tests.GroupCreationTests -->
+      <class name="com.example.tests.ContactCreation">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.example.tests.ContactCreation@19e185b9]" name="setUp" is-config="true" duration-ms="7708" started-at="2014-08-03T11:12:17Z" finished-at="2014-08-03T11:12:25Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="testContactCreation()[pri:0, instance:com.example.tests.ContactCreation@19e185b9]" name="testContactCreation" duration-ms="6791" started-at="2014-08-03T11:12:25Z" finished-at="2014-08-03T11:12:31Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testContactCreation -->
+        <test-method status="PASS" signature="testEmptyContactCreation()[pri:0, instance:com.example.tests.ContactCreation@19e185b9]" name="testEmptyContactCreation" duration-ms="2277" started-at="2014-08-03T11:12:31Z" finished-at="2014-08-03T11:12:34Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testEmptyContactCreation -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.example.tests.ContactCreation@19e185b9]" name="tearDown" is-config="true" duration-ms="235" started-at="2014-08-03T11:12:36Z" finished-at="2014-08-03T11:12:37Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- com.example.tests.GroupCreationTests -->
+      </class> <!-- com.example.tests.ContactCreation -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
