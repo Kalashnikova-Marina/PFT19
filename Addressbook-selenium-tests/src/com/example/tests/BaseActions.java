@@ -10,8 +10,9 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 
 public class BaseActions {
@@ -28,46 +29,6 @@ public class BaseActions {
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }
 
-	protected void enterContactData(ContactData contact) {
-		driver.findElement(By.name("firstname")).clear();
-	    driver.findElement(By.name("firstname")).sendKeys(contact.getFirstName());
-	    driver.findElement(By.name("lastname")).clear();
-	    driver.findElement(By.name("lastname")).sendKeys(contact.getLastName());
-	    driver.findElement(By.name("address")).clear();
-	    driver.findElement(By.name("address")).sendKeys(contact.getAddress());
-	    driver.findElement(By.name("home")).clear();
-	    driver.findElement(By.name("home")).sendKeys(contact.getHomePhone());
-	    driver.findElement(By.name("mobile")).clear();
-	    driver.findElement(By.name("mobile")).sendKeys(contact.getMobilePhone());
-	    driver.findElement(By.name("work")).clear();
-	    driver.findElement(By.name("work")).sendKeys(contact.getWorkPhone());
-	    driver.findElement(By.name("email")).clear();
-	    driver.findElement(By.name("email")).sendKeys(contact.getEmail());
-	    driver.findElement(By.name("email2")).clear();
-	    driver.findElement(By.name("email2")).sendKeys(contact.getSecondEmail());
-	    new Select(driver.findElement(By.name("bday"))).selectByVisibleText(contact.getDay());
-	    new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(contact.getMonth());
-	    driver.findElement(By.name("byear")).clear();
-	    driver.findElement(By.name("byear")).sendKeys(contact.getYear());
-	    new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
-	    driver.findElement(By.name("address2")).clear();
-	    driver.findElement(By.name("address2")).sendKeys(contact.getSecondaryAddress());
-	    driver.findElement(By.name("phone2")).clear();
-	    driver.findElement(By.name("phone2")).sendKeys(contact.getSecondaryPhone());
-	}
-
-	protected void backToHomePage() {
-		driver.findElement(By.linkText("home page")).click();
-	}
-
-	protected void submitContactCreation() {
-		driver.findElement(By.name("submit")).click();
-	}
-
-	protected void openNewContactPage() {
-		driver.findElement(By.linkText("add new")).click();
-	}
-	
 	protected void backToGroupPage() {
 	    driver.findElement(By.linkText("group page")).click();
 	}
