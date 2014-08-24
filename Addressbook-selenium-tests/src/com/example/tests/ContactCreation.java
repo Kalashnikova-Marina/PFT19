@@ -2,12 +2,12 @@ package com.example.tests;
 
 import org.testng.annotations.Test;
 
-public class ContactCreation extends BaseActions{
+public class ContactCreation extends TestBase{
 
   @Test
   public void testContactCreation() throws Exception {
-	openMainPage();
-    openNewContactPage();
+	app.getNaviHelper().openMainPage();
+    app.getContactHelper().openNewContactPage();
     ContactData contact = new ContactData();
     contact.setFirstName("Ivan");
     contact.setLastName("Ivanov");
@@ -23,15 +23,15 @@ public class ContactCreation extends BaseActions{
     contact.setGroup("new group");
     contact.setSecondaryAddress("Morozova st. 246");
     contact.setSecondaryPhone("+09876543210");
-	enterContactData(contact);
-    submitContactCreation();
-    backToHomePage();
+	app.getContactHelper().enterContactData(contact);
+    app.getContactHelper().submitContactCreation();
+    app.getContactHelper().backToHomePage();
   }
   
   @Test
   public void testEmptyContactCreation() throws Exception {
-	openMainPage();
-    openNewContactPage();
+	app.getNaviHelper().openMainPage();
+    app.getContactHelper().openNewContactPage();
     ContactData contact = new ContactData();
     contact.setFirstName("");
     contact.setLastName("");
@@ -47,9 +47,9 @@ public class ContactCreation extends BaseActions{
     contact.setGroup("[none]");
     contact.setSecondaryAddress("");
     contact.setSecondaryPhone("");
-	enterContactData(contact);
-    submitContactCreation();
-    backToHomePage();
+	app.getContactHelper().enterContactData(contact);
+    app.getContactHelper().submitContactCreation();
+    app.getContactHelper().backToHomePage();
   }
 
 }

@@ -5,15 +5,7 @@ public class GroupData {
 	private String header;
 	private String footer;
 
-	public GroupData() {
-	}
 	
-	public GroupData(String groupname, String header, String footer) {
-		this.groupname = groupname;
-		this.header = header;
-		this.footer = footer;
-	}
-
 	public String getGroupname() {
 		return groupname;
 	}

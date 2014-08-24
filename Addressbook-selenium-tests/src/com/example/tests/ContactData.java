@@ -15,29 +15,7 @@ public class ContactData {
 	private String day;
 	private String month;
 	private String group;
-
-	public ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone,
-			String workPhone, String email, String secondEmail, String year, String secondaryAddress,
-			String secondaryPhone, String day, String month, String group) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		this.homePhone = homePhone;
-		this.mobilePhone = mobilePhone;
-		this.workPhone = workPhone;
-		this.email = email;
-		this.secondEmail = secondEmail;
-		this.year = year;
-		this.secondaryAddress = secondaryAddress;
-		this.secondaryPhone = secondaryPhone;
-		this.day = day;
-		this.month = month;
-		this.group = group;
-	}
 	
-	public ContactData() {
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
