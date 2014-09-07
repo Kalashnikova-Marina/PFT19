@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 public abstract class HelperBase {
@@ -13,12 +14,12 @@ public abstract class HelperBase {
 	protected WebDriver driver;
 	public boolean acceptNextAlert = true;
 
-	public HelperBase (AppManager manager) {
+	public HelperBase(AppManager manager) {
 		this.manager = manager;
 		this.driver = manager.driver;
-		
+
 	}
-	
+
 	public boolean isElementPresent(By by) {
 		try {
 			driver.findElement(by);
@@ -54,18 +55,21 @@ public abstract class HelperBase {
 
 	protected void type(By locator, String text) {
 		if (text != null) {
-			driver.findElement(locator).clear();
-			driver.findElement(locator).sendKeys(text);
+			WebElement findElement = driver.findElement(locator);
+			findElement.clear();
+			findElement.sendKeys(text);
 		}
-		
+
 	}
 
 	protected void click(By locator) {
 		driver.findElement(locator).click();
 	}
-	
+
 	protected void selectByText(By locator, String text) {
-		new Select(driver.findElement(locator)).selectByVisibleText(text);
+		if (text != null) {
+			new Select(driver.findElement(locator)).selectByVisibleText(text);			
+		}
 	}
 
 }

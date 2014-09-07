@@ -41,4 +41,24 @@ public class ContactHelper extends HelperBase{
 		click(By.linkText("home page"));
 	}
 
+	public void openEditContactPage(int index) {
+		click(By.xpath("//tr["+ index +"]/td[7]/a/img"));
+	}
+
+	public void deleteContact() {
+		click(By.xpath("//form[2]/input[2]"));
+	}
+
+	public void submitContactModification() {
+		click(By.xpath("//form[1]/input[11]"));
+	}
+
+	public void openDetailsContactPage(int index) {
+		click(By.xpath("//tr["+ index +"]/td[6]/a/img"));
+	}
+
+	public void initCintactModification() {
+		click(By.name("modifiy"));
+	}
+
 }

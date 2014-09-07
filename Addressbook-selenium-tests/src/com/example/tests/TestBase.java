@@ -1,22 +1,20 @@
 package com.example.tests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 import com.example.fw.AppManager;
 
-
 public class TestBase {
 	
-	protected AppManager app;
+	protected static AppManager app;
 
-	@BeforeClass
+	@BeforeTest
 	public void setUp() throws Exception {
 		app=new AppManager();
 	  }
 
-	@AfterClass
+	@AfterTest
 	public void tearDown() throws Exception {
 		app.stop();
 	  }
