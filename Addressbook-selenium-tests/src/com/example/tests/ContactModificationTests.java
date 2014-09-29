@@ -1,33 +1,66 @@
 package com.example.tests;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import org.testng.annotations.Test;
 
 public class ContactModificationTests extends TestBase {
-	
-	@Test
-	public void modifyContactFromMainPage(){
+
+	@Test(dataProvider = "randomValidContactGenerator")
+	public void modifyContactFromMainPage(ContactData contact) {
 		app.getNaviHelper().openMainPage();
-		app.getContactHelper().openEditContactPage(2);
-		ContactData contact = new ContactData();
-		contact.setFirstName("Free");
-		contact.setLastName("Andrey");
+
+		// save old state
+		List<ContactData> oldList = app.getContactHelper().getContacts();
+
+		Random rnd = new Random();
+		int index = rnd.nextInt(oldList.size() - 1);
+
+		app.getContactHelper().openEditContactPage(index);
 		app.getContactHelper().enterContactData(contact);
-		app.getContactHelper().submitContactModification();		
+		app.getContactHelper().submitContactModification();
 		app.getContactHelper().backToHomePage();
+
+		// save new state
+		List<ContactData> newList = app.getContactHelper().getContacts();
+
+		// compare old and new states
+		oldList.remove(index);
+		oldList.add(contact);
+		Collections.sort(oldList);
+		Collections.sort(newList);
+		assertEquals(newList, oldList);
 	}
 
-	@Test
-	public void modifyContactFromDetails(){
+	@Test(dataProvider = "randomValidContactGenerator")
+	public void modifyContactFromDetails(ContactData contact) {
 		app.getNaviHelper().openMainPage();
-		app.getContactHelper().openDetailsContactPage(2);
+
+		// save old state
+		List<ContactData> oldList = app.getContactHelper().getContacts();
+
+		Random rnd = new Random();
+		int index = rnd.nextInt(oldList.size() - 1);
+
+		app.getContactHelper().openDetailsContactPage(index);
 		app.getContactHelper().initCintactModification();
-		ContactData contact = new ContactData();
-		contact.setFirstName("Petr");
-		contact.setLastName("Petrov");
-		contact.setDay("12");
 		app.getContactHelper().enterContactData(contact);
-		app.getContactHelper().submitContactModification();		
+		app.getContactHelper().submitContactModification();
 		app.getContactHelper().backToHomePage();
+
+		// save new state
+		List<ContactData> newList = app.getContactHelper().getContacts();
+
+		// compare old and new states
+		oldList.remove(index);
+		oldList.add(contact);
+		Collections.sort(oldList);
+		Collections.sort(newList);
+		assertEquals(newList, oldList);
 	}
-	
+
 }

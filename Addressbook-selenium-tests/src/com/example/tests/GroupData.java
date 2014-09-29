@@ -62,7 +62,8 @@ public class GroupData implements Comparable<GroupData> {
 
 	@Override
 	public int compareTo(GroupData other) {
-		return this.groupname.toLowerCase().compareTo(other.groupname.toLowerCase());
+		return this.toString().toLowerCase().compareTo(other.toString().toLowerCase());
 	}
+
 	
 }

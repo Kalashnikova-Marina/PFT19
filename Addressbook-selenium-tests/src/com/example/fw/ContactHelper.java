@@ -1,10 +1,14 @@
 package com.example.fw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
 
-public class ContactHelper extends HelperBase{
+public class ContactHelper extends HelperBase {
 
 	public ContactHelper(AppManager manager) {
 		super(manager);
@@ -29,9 +33,7 @@ public class ContactHelper extends HelperBase{
 		// selectByText(By.name("new_group"), contact.getGroup());
 		type(By.name("address2"), contact.getSecondaryAddress());
 		type(By.name("phone2"), contact.getSecondaryPhone());
-		}
-
-	
+	}
 
 	public void submitContactCreation() {
 		click(By.name("submit"));
@@ -42,7 +44,7 @@ public class ContactHelper extends HelperBase{
 	}
 
 	public void openEditContactPage(int index) {
-		click(By.xpath("//tr["+ index +"]/td[7]/a/img"));
+		click(By.xpath("//tr[" + (index+2) + "]/td[7]/a/img"));
 	}
 
 	public void deleteContact() {
@@ -54,11 +56,56 @@ public class ContactHelper extends HelperBase{
 	}
 
 	public void openDetailsContactPage(int index) {
-		click(By.xpath("//tr["+ index +"]/td[6]/a/img"));
+		click(By.xpath("//tr[" + (index+2) + "]/td[6]/a/img"));
 	}
 
 	public void initCintactModification() {
 		click(By.name("modifiy"));
+	}
+
+	public List<ContactData> getContacts() {
+		List<ContactData> contacts = new ArrayList<ContactData>();
+		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
+		for (WebElement checkbox : checkboxes) {
+			ContactData contact = new ContactData();
+			String title = checkbox.getAttribute("title");
+
+			// т.к. title содержит firstname и lastName, разделенные пробелом,
+			// нам необходимо их выделить, прежде чем заносить информацию в
+			// данные контакта
+			String firstLastName = title.substring("Select (".length(), title.length() - ")".length());
+			String[] names = firstLastName.split(" ");
+
+			switch (names.length) {
+			case 2:// в случае, когда введены оба имени, разделенные пробелом
+				contact.setFirstName(names[0]);
+				contact.setLastName(names[1]);
+				contacts.add(contact);
+				break;
+			case 0:// в случае, оба имени - пустые
+				contact.setFirstName("");
+				contact.setLastName("");
+				contacts.add(contact);
+				break;
+			case 1:// в случае, когда одно имя пусто, а другое - нет, определяем
+					// какое из имен не пусто и вносим в данные контакта
+				if (firstLastName.indexOf(" ") == 0) {
+					contact.setLastName(names[0]);
+					contact.setFirstName("");
+				} else {
+					contact.setFirstName(names[0]);
+					contact.setLastName("");
+				}
+				contacts.add(contact);
+				break;
+			default:// случай, когда оба имени содержат пробелы является
+					// слишком сложным в обработке. Это будет учитываться при
+					// формировании исходных данных контактов для проведения
+					// тестирования.
+				break;
+			}
+		}
+		return contacts;
 	}
 
 }

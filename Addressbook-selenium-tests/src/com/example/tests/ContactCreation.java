@@ -1,55 +1,34 @@
 package com.example.tests;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.Collections;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
-public class ContactCreation extends TestBase{
+public class ContactCreation extends TestBase {
+	
+	@Test(dataProvider = "randomValidContactGenerator")
+	public void createContactWithValidData(ContactData contact) throws Exception {
+		app.getNaviHelper().openMainPage();
 
-  @Test
-  public void testContactCreation() throws Exception {
-	app.getNaviHelper().openMainPage();
-    app.getContactHelper().openNewContactPage();
-    ContactData contact = new ContactData();
-    contact.setFirstName("Ivan");
-    contact.setLastName("Ivanov");
-    contact.setAddress("Russia, Ivanov, Lenina st. 135");
-    contact.setHomePhone("1234567890");
-    contact.setMobilePhone("+79008001111");
-    contact.setWorkPhone("+79002222222");
-    contact.setEmail("myemail@t.r");
-    contact.setSecondEmail("additionalemail@t.r");
-    contact.setDay("3");
-    contact.setMonth("August");
-    contact.setYear("2014");
-    contact.setGroup("new group");
-    contact.setSecondaryAddress("Morozova st. 246");
-    contact.setSecondaryPhone("+09876543210");
-	app.getContactHelper().enterContactData(contact);
-    app.getContactHelper().submitContactCreation();
-    app.getContactHelper().backToHomePage();
-  }
-  
-  @Test
-  public void testEmptyContactCreation() throws Exception {
-	app.getNaviHelper().openMainPage();
-    app.getContactHelper().openNewContactPage();
-    ContactData contact = new ContactData();
-    contact.setFirstName("");
-    contact.setLastName("");
-    contact.setAddress("");
-    contact.setHomePhone("");
-    contact.setMobilePhone("");
-    contact.setWorkPhone("");
-    contact.setEmail("");
-    contact.setSecondEmail("");
-    contact.setDay("-");
-    contact.setMonth("-");
-    contact.setYear("");
-    contact.setGroup("[none]");
-    contact.setSecondaryAddress("");
-    contact.setSecondaryPhone("");
-	app.getContactHelper().enterContactData(contact);
-    app.getContactHelper().submitContactCreation();
-    app.getContactHelper().backToHomePage();
-  }
+		// save old state
+		List<ContactData> oldList = app.getContactHelper().getContacts();
 
+		// actions
+		app.getContactHelper().openNewContactPage();		
+		app.getContactHelper().enterContactData(contact);		
+		app.getContactHelper().submitContactCreation();
+		app.getContactHelper().backToHomePage();
+
+		// save new state
+		List<ContactData> newList = app.getContactHelper().getContacts();
+
+		// compare old and new states
+		oldList.add(contact);
+		Collections.sort(oldList);
+		Collections.sort(newList);
+		assertEquals(newList, oldList);
+	}
 }
