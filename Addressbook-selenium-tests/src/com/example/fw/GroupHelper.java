@@ -14,6 +14,27 @@ public class GroupHelper extends HelperBase{
 		super(manager);
 	}
 
+	private List<GroupData> cachedGroups;
+	
+	public List<GroupData> getGroups() {
+		if (cachedGroups == null) {
+			rebuildCache();
+		}
+		return cachedGroups;
+		
+	}
+	
+	private void rebuildCache() {
+		cachedGroups = new ArrayList<GroupData>();
+		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
+		for (WebElement checkbox : checkboxes) {
+			GroupData group = new GroupData();
+			String title = checkbox.getAttribute("title");
+			group.setGroupname(title.substring("Select (".length(), title.length() - ")".length()));
+			cachedGroups.add(group);
+		}
+	}
+
 	public void openGroupCreationPage() {
 		click(By.name("new"));
 	}
@@ -26,6 +47,7 @@ public class GroupHelper extends HelperBase{
 
 	public void saveNewGroup() {
 		click(By.name("submit"));
+		cachedGroups = null;
 	}
 
 	public void backToGroupPage() {
@@ -49,18 +71,7 @@ public class GroupHelper extends HelperBase{
 
 	public void submitGroupModification() {
 		click(By.name("update"));
-	}
-
-	public List<GroupData> getGroups() {
-		List<GroupData> groups = new ArrayList<GroupData>();
-		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
-			GroupData group = new GroupData();
-			String title = checkbox.getAttribute("title");
-			group.setGroupname(title.substring("Select (".length(), title.length() - ")".length()));
-			groups.add(group);
-		}
-		return groups;
+		cachedGroups = null;
 	}
 
 }

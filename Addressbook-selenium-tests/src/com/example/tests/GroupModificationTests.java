@@ -24,7 +24,6 @@ public class GroupModificationTests extends TestBase{
 
 	    //actions	    
 		app.getGroupHelper().initGroupModofication(index);
-//		group.setGroupname("hustle");
 		app.getGroupHelper().fillGroupFields(group);
 		app.getGroupHelper().submitGroupModification();
 		app.getGroupHelper().backToGroupPage();

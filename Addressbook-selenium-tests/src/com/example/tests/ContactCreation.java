@@ -2,6 +2,7 @@ package com.example.tests;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,16 +15,16 @@ public class ContactCreation extends TestBase {
 		app.getNaviHelper().openMainPage();
 
 		// save old state
-		List<ContactData> oldList = app.getContactHelper().getContacts();
+		List<ContactData> oldList = new ArrayList<>(app.getContactHelper().getContacts());
 
 		// actions
 		app.getContactHelper().openNewContactPage();		
-		app.getContactHelper().enterContactData(contact);		
+		app.getContactHelper().enterContactData(contact, true);		
 		app.getContactHelper().submitContactCreation();
 		app.getContactHelper().backToHomePage();
 
 		// save new state
-		List<ContactData> newList = app.getContactHelper().getContacts();
+		List<ContactData> newList = new ArrayList<>(app.getContactHelper().getContacts());
 
 		// compare old and new states
 		oldList.add(contact);
