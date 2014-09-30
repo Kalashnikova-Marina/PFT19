@@ -1,114 +1,66 @@
 package com.example.fw;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.example.tests.GroupData;
-import com.example.utils.SortedListOf;
 
-public class GroupHelper extends HelperBase {
+public class GroupHelper extends HelperBase{
 
 	public GroupHelper(AppManager manager) {
 		super(manager);
 	}
 
-	private SortedListOf<GroupData> cachedGroups;
-
-	public SortedListOf<GroupData> getGroups() {
-		if (cachedGroups == null) {
-			rebuildCache();
-		}
-		return cachedGroups;
-
-	}
-
-	private void rebuildCache() {
-		cachedGroups = new SortedListOf<GroupData>();
-
-		manager.navigateTo().groupPage();
-		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
-			String title = checkbox.getAttribute("title");
-			String groupname = title.substring("Select (".length(), title.length() - ")".length());
-			cachedGroups.add(new GroupData().withName(groupname));
-		}
-
-	}
-
-	public GroupHelper createGroup(GroupData group) {
-		manager.navigateTo().groupPage();
-		openGroupCreationPage();
-		fillGroupFields(group);
-		saveNewGroup();
-		backToGroupPage();
-		rebuildCache();
-		return this;
-	}
-
-	public GroupHelper modifyGroup(int index, GroupData group) {
-		manager.navigateTo().groupPage();
-		initGroupModofication(index);
-		fillGroupFields(group);
-		submitGroupModification();
-		backToGroupPage();
-		rebuildCache();
-		return this;
-	}
-
-	public GroupHelper deleteGroup(int index) {
-		selectGroupByIndex(index);
-		submitGroupDeletion();
-		backToGroupPage(); 
-		rebuildCache();
-		return this;
-	}
-
-	// ---------------------------------------------------------------------------------------
-
-	public GroupHelper openGroupCreationPage() {
+	public void openGroupCreationPage() {
 		click(By.name("new"));
-		return this;
 	}
 
-	public GroupHelper fillGroupFields(GroupData group) {
+	public void fillGroupFields(GroupData group) {
 		type(By.name("group_name"), group.getGroupname());
 		type(By.name("group_header"), group.getHeader());
 		type(By.name("group_footer"), group.getFooter());
-		return this;
 	}
 
-	public GroupHelper saveNewGroup() {
+	public void saveNewGroup() {
 		click(By.name("submit"));
-		cachedGroups = null;
-		return this;
 	}
 
-	public GroupHelper backToGroupPage() {
+	public void backToGroupPage() {
 		click(By.linkText("group page"));
-		return this;
+	}
+
+	public void deleteGroup(int index) {
+		selectGroupByIndex(index);
+		click(By.name("delete"));
 	}
 
 	private void selectGroupByIndex(int index) {
-		click(By.xpath("//input[@name='selected[]'][" + (index + 1) + "]"));
+		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
 	}
 
-	public GroupHelper initGroupModofication(int index) {
+	public void initGroupModofication(int index) {
 		selectGroupByIndex(index);
 		click(By.name("edit"));
-		return this;
+		
 	}
 
-	public GroupHelper submitGroupModification() {
+	public void submitGroupModification() {
 		click(By.name("update"));
-		cachedGroups = null;
-		return this;
 	}
 
-	private void submitGroupDeletion() {
-		click(By.name("delete"));
-		cachedGroups = null;
+	public List<GroupData> getGroups() {
+		List<GroupData> groups = new ArrayList<GroupData>();
+		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
+		for (WebElement checkbox : checkboxes) {
+			GroupData group = new GroupData();
+			String title = checkbox.getAttribute("title");
+			group.setGroupname(title.substring("Select (".length(), title.length() - ")".length()));
+			groups.add(group);
+		}
+		return groups;
 	}
 
 }

@@ -9,10 +9,7 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.ContactData;
 
 public class ContactHelper extends HelperBase {
-	
-	public static boolean CREATION = true;
-	public static boolean MODIFICATION = false;
-	
+
 	public ContactHelper(AppManager manager) {
 		super(manager);
 	}
@@ -21,7 +18,7 @@ public class ContactHelper extends HelperBase {
 		click(By.linkText("add new"));
 	}
 
-	public void enterContactData(ContactData contact, boolean formType) {
+	public void enterContactData(ContactData contact) {
 		type(By.name("firstname"), contact.getFirstName());
 		type(By.name("lastname"), contact.getLastName());
 		type(By.name("address"), contact.getAddress());
@@ -33,18 +30,9 @@ public class ContactHelper extends HelperBase {
 		selectByText(By.name("bday"), contact.getDay());
 		selectByText(By.name("bmonth"), contact.getMonth());
 		type(By.name("byear"), contact.getYear());
-		if (formType == CREATION){
-			// selectByText(By.name("new_group"), contact.getGroup());
-		} else {
-			if (driver.findElements(By.name("new_group")).size() !=0 ){
-				throw new Error("Group selector exist in contact modification form");
-			}
-		}
 		// selectByText(By.name("new_group"), contact.getGroup());
 		type(By.name("address2"), contact.getSecondaryAddress());
 		type(By.name("phone2"), contact.getSecondaryPhone());
-		
-		//TODO boolean hasGroupSelector
 	}
 
 	public void submitContactCreation() {
