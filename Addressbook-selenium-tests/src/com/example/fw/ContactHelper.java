@@ -9,12 +9,51 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.ContactData;
 
 public class ContactHelper extends HelperBase {
+	
+	public static boolean CREATION = true;
+	public static boolean MODIFICATION = false;
 
 	public ContactHelper(AppManager manager) {
 		super(manager);
 	}
 
 	private List<ContactData> cachedContacts;
+
+	public ContactHelper createContact(ContactData contact) {
+		manager.navigateTo().mainPage();
+		openNewContactPage();
+		enterContactData(contact, CREATION);
+		submitContactCreation();
+		backToHomePage();
+		return this;
+	}
+	
+	public ContactHelper modifyContactFromMainPage(ContactData contact, int index) {
+		manager.navigateTo().mainPage();
+		openEditContactPage(index);
+		enterContactData(contact, MODIFICATION);
+		submitContactModification();
+		backToHomePage();
+		return this;
+		}
+	
+	public ContactHelper modifyContactFromDetails(ContactData contact, int index) {
+		manager.navigateTo().mainPage();
+		openDetailsContactPage(index);
+		initCintactModification();
+		enterContactData(contact, MODIFICATION);
+		submitContactModification();
+		backToHomePage();
+		return this;
+	}
+
+	public ContactHelper deleteContact(int index) {
+		manager.navigateTo().mainPage();
+		openEditContactPage(index);
+		pressDeleteButton();
+		backToHomePage();
+		return this;
+	}
 	
 	public List<ContactData> getContacts() {
 		
@@ -24,33 +63,31 @@ public class ContactHelper extends HelperBase {
 		return cachedContacts;
 	}
 
-	
 	private void rebuildCache() {
 		cachedContacts = new ArrayList<ContactData>();
+		
+		manager.navigateTo().mainPage();
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
 		for (WebElement checkbox : checkboxes) {
 			ContactData contact = new ContactData();
 			String title = checkbox.getAttribute("title");
 
-			// т.к. title содержит firstname и lastName, разделенные пробелом,
-			// нам необходимо их выделить, прежде чем заносить информацию в
-			// данные контакта
+			// as title consist of first and last name separated with space
 			String firstLastName = title.substring("Select (".length(), title.length() - ")".length());
 			String[] names = firstLastName.split(" ");
 
 			switch (names.length) {
-			case 2:// в случае, когда введены оба имени, разделенные пробелом
+			case 2:// first name and last name are field
 				contact.setFirstName(names[0]);
 				contact.setLastName(names[1]);
 				cachedContacts.add(contact);
 				break;
-			case 0:// в случае, оба имени - пустые
+			case 0:// first name and last name are empty
 				contact.setFirstName("");
 				contact.setLastName("");
 				cachedContacts.add(contact);
 				break;
-			case 1:// в случае, когда одно имя пусто, а другое - нет, определяем
-					// какое из имен не пусто и вносим в данные контакта
+			case 1:// if one of names is empty, we define the empty name and fill values
 				if (firstLastName.indexOf(" ") == 0) {
 					contact.setLastName(names[0]);
 					contact.setFirstName("");
@@ -60,22 +97,21 @@ public class ContactHelper extends HelperBase {
 				}
 				cachedContacts.add(contact);
 				break;
-			default:// случай, когда оба имени содержат пробелы является
-					// слишком сложным в обработке. Это будет учитываться при
-					// формировании исходных данных контактов для проведения
-					// тестирования.
+			default:
 				break;
 			}
 		}
 		
 	}
 
-
-	public void openNewContactPage() {
+// --------------------------------------------------------------------------------------
+	
+	public ContactHelper openNewContactPage() {
 		click(By.linkText("add new"));
+		return this;
 	}
 
-	public void enterContactData(ContactData contact, boolean hasGroupSelector) {
+	public ContactHelper enterContactData(ContactData contact, boolean formType) {
 		type(By.name("firstname"), contact.getFirstName());
 		type(By.name("lastname"), contact.getLastName());
 		type(By.name("address"), contact.getAddress());
@@ -87,47 +123,57 @@ public class ContactHelper extends HelperBase {
 		selectByText(By.name("bday"), contact.getDay());
 		selectByText(By.name("bmonth"), contact.getMonth());
 		type(By.name("byear"), contact.getYear());
-		if (hasGroupSelector) {
-		// selectByText(By.name("new_group"), contact.getGroup());
-		} else {
-			if (driver.findElements(By.name("new_group")).size() != 0) {
-				throw new Error("Group selector exists in contact modification form");
-			}
-		}
+//		if (formType == CREATION) {
+//		selectByText(By.name("new_group"), contact.getGroup());
+//		} else {
+//			if (driver.findElements(By.name("new_group")).size() != 0) {
+//				throw new Error("Group selector exists in contact modification form");
+//			}
+//		}
 		type(By.name("address2"), contact.getSecondaryAddress());
 		type(By.name("phone2"), contact.getSecondaryPhone());
+		return this;
 	}
 
-	public void submitContactCreation() {
+	public ContactHelper submitContactCreation() {
 		click(By.name("submit"));
 		cachedContacts = null;
+		return this;
 	}
 
-	public void backToHomePage() {
+	public ContactHelper backToHomePage() {
 		click(By.linkText("home page"));
+		return this;
 	}
 
-	public void openEditContactPage(int index) {
+	public ContactHelper openEditContactPage(int index) {
 		click(By.xpath("//tr[" + (index+2) + "]/td[7]/a/img"));
+		return this;
 	}
 
-	public void deleteContact() {
+	public ContactHelper pressDeleteButton() {
 		click(By.xpath("//form[2]/input[2]"));
 		cachedContacts = null;
+		return this;
 	}
 
-	public void submitContactModification() {
+	public ContactHelper submitContactModification() {
 		click(By.xpath("//form[1]/input[11]"));
 		cachedContacts = null;
+		return this;
 	}
 
-	public void openDetailsContactPage(int index) {
+	public ContactHelper openDetailsContactPage(int index) {
 		click(By.xpath("//tr[" + (index+2) + "]/td[6]/a/img"));
+		return this;
 	}
 
-	public void initCintactModification() {
+	public ContactHelper initCintactModification() {
 		click(By.name("modifiy"));
+		return this;
 	}
+
+
 
 	
 }

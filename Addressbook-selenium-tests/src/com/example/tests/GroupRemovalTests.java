@@ -12,8 +12,6 @@ public class GroupRemovalTests extends TestBase{
 	
 	@Test
 	public void deleteGroup(){
-		app.getNaviHelper().openMainPage();
-	    app.getNaviHelper().openGroupPage();
 	   
 	    //save old state
 	    List<GroupData> oldList = app.getGroupHelper().getGroups();
@@ -23,7 +21,6 @@ public class GroupRemovalTests extends TestBase{
 	   
 	    //actions
 		app.getGroupHelper().deleteGroup(index);
-		app.getGroupHelper().backToGroupPage();
 		
 		//save new state
 	    List<GroupData> newList = app.getGroupHelper().getGroups();

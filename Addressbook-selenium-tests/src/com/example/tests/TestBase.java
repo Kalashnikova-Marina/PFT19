@@ -29,10 +29,10 @@ public class TestBase {
 	  public Iterator<Object[]> randomValidGroupGenerator() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		for (int i = 0; i < 5; i++){
-			GroupData group = new GroupData();
-			group.setGroupname(generateRandomString());
-			group.setHeader(generateRandomString());
-		    group.setFooter(generateRandomString());
+			GroupData group = new GroupData()
+				.withName(generateRandomString())
+				.withHeader(generateRandomString())
+				.withFooter(generateRandomString()); 
 		    list.add(new Object[]{group});
 		}
 		return list.iterator();
@@ -43,21 +43,21 @@ public class TestBase {
 			Random select = new Random();
 			List<Object[]> list = new ArrayList<Object[]>();
 			for (int i = 0; i < 5; i++){
-				ContactData contact = new ContactData();
-				contact.setFirstName(generateRandomString());
-				contact.setLastName(generateRandomString());
-				contact.setAddress(generateRandomString());
-				contact.setHomePhone(generateRandomString());
-				contact.setMobilePhone(generateRandomString());
-				contact.setWorkPhone(generateRandomString());
-				contact.setEmail(generateRandomString());
-				contact.setSecondEmail(generateRandomString());
-				contact.setDay(generateRandomNumberString(select.nextInt(32)));
-				contact.setMonth(getMonthByNumber(select.nextInt(13)));
-				contact.setYear(generateRandomNumberString(select.nextInt(2015)));
-				contact.setSecondaryAddress(generateRandomString());
-				contact.setSecondaryPhone(generateRandomString());
-				list.add(new Object[]{contact});
+				ContactData contact = new ContactData()
+					.withFirstName(generateRandomString())
+					.withLastName(generateRandomString())
+					.withAddress(generateRandomString())
+					.withHomePhone(generateRandomString())
+					.withMobilePhone(generateRandomString())
+					.withWorkPhone(generateRandomString())
+					.withEmail(generateRandomString())
+					.withSecondEmail(generateRandomString())
+					.withDay(generateRandomNumberString(select.nextInt(32)))
+					.withMonth(getMonthByNumber(select.nextInt(13)))
+					.withYear(generateRandomNumberString(select.nextInt(2015)))
+					.withSecondaryAddress(generateRandomString())
+					.withSecondaryPhone(generateRandomString());
+			list.add(new Object[]{contact});
 			}
 			return list.iterator();
 		}

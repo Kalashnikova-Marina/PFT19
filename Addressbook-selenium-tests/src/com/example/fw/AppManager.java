@@ -18,14 +18,14 @@ public class AppManager {
 		driver = new FirefoxDriver();
 		baseUrl = "http://localhost/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
+		driver.get(baseUrl + "/addressbookv4.1.4/");
 	}
 
 	public void stop() {
 		driver.quit();
 	}
 	
-	public NaviHelper getNaviHelper (){
+	public NaviHelper navigateTo (){
 		if (naviHelper == null) {
 			naviHelper = new NaviHelper(this);
 		}

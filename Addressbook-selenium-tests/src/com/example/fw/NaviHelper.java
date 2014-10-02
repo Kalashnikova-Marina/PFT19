@@ -8,12 +8,29 @@ public class NaviHelper extends HelperBase {
 		super(manager);
 	}
 
-	public void openMainPage() {
-		driver.get(manager.baseUrl + "/addressbookv4.1.4/");
+	public void mainPage() {
+		if (! onMainPage()){
+			click(By.linkText("home"));
+		}
 	}
 
-	public void openGroupPage() {
-		click(By.linkText("groups"));
+	private boolean onMainPage() {
+		return	driver.findElements(By.id("maintable")).size() > 0;
+	}
+
+	public void groupPage() {
+		if (! onGroupPage()) {
+			click(By.linkText("groups"));
+		}
+	}
+
+	private boolean onGroupPage() {
+		if (driver.getCurrentUrl().contains("/groups.php")
+				&& driver.findElements(By.name("new")).size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
