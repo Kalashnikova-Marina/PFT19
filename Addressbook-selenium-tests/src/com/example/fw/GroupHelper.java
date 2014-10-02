@@ -1,32 +1,32 @@
 package com.example.fw;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.example.tests.GroupData;
+import com.example.utils.SortedListOf;
 
-public class GroupHelper extends HelperBase{
+public class GroupHelper extends HelperBase {
 
 	public GroupHelper(AppManager manager) {
 		super(manager);
 	}
 
-	private List<GroupData> cachedGroups;
-	
-	public List<GroupData> getGroups() {
+	private SortedListOf<GroupData> cachedGroups;
+
+	public SortedListOf<GroupData> getGroups() {
 		if (cachedGroups == null) {
 			rebuildCache();
 		}
 		return cachedGroups;
-		
+
 	}
-	
+
 	private void rebuildCache() {
-		cachedGroups = new ArrayList<GroupData>();
-		
+		cachedGroups = new SortedListOf<GroupData>();
+
 		manager.navigateTo().groupPage();
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
 		for (WebElement checkbox : checkboxes) {
@@ -35,35 +35,38 @@ public class GroupHelper extends HelperBase{
 			cachedGroups.add(new GroupData().withName(groupname));
 		}
 	}
-	
+
 	public GroupHelper createGroup(GroupData group) {
 		manager.navigateTo().groupPage();
-    	openGroupCreationPage();
+		openGroupCreationPage();
 		fillGroupFields(group);
-    	saveNewGroup();
-    	backToGroupPage();
-    	return this;
+		saveNewGroup();
+		backToGroupPage();
+		rebuildCache();
+		return this;
 	}
-	
+
 	public GroupHelper modifyGroup(int index, GroupData group) {
 		manager.navigateTo().groupPage();
 		initGroupModofication(index);
 		fillGroupFields(group);
 		submitGroupModification();
 		backToGroupPage();
+		rebuildCache();
 		return this;
 	}
-	
+
 	public GroupHelper deleteGroup(int index) {
 		manager.navigateTo().groupPage();
 		selectGroupByIndex(index);
 		submitGroupDeletion();
-    	backToGroupPage();
+		backToGroupPage();
+		rebuildCache();
 		return this;
 	}
 
-// -------------------------------------------------------------------------------------	
-	
+	// -------------------------------------------------------------------------------------
+
 	public GroupHelper openGroupCreationPage() {
 		click(By.name("new"));
 		return this;
@@ -86,9 +89,9 @@ public class GroupHelper extends HelperBase{
 		click(By.linkText("group page"));
 		return this;
 	}
-	
+
 	private void selectGroupByIndex(int index) {
-		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
+		click(By.xpath("//input[@name='selected[]'][" + (index + 1) + "]"));
 	}
 
 	public GroupHelper initGroupModofication(int index) {
@@ -107,5 +110,4 @@ public class GroupHelper extends HelperBase{
 		click(By.name("delete"));
 	}
 
-	
 }
