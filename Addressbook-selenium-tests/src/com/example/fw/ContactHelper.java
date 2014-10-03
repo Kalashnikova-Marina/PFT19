@@ -1,5 +1,6 @@
 package com.example.fw;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -71,45 +72,34 @@ public class ContactHelper extends HelperBase {
 		cachedContacts = new SortedListOf<ContactData>();
 		
 		manager.navigateTo().mainPage();
-		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
-			ContactData contact = new ContactData();
-			String title = checkbox.getAttribute("title");
-
-			// as title consist of first and last name separated with space
-			String firstLastName = title.substring("Select (".length(), title.length() - ")".length());
-			String[] names = firstLastName.split(" ");
-
-			switch (names.length) {
-			case 2:// first name and last name are field
-				contact.setFirstName(names[0]);
-				contact.setLastName(names[1]);
-				cachedContacts.add(contact);
-				break;
-			case 0:// first name and last name are empty
-				contact.setFirstName("");
-				contact.setLastName("");
-				cachedContacts.add(contact);
-				break;
-			case 1:// if one of names is empty, we define the empty name and fill values
-				if (firstLastName.indexOf(" ") == 0) {
-					contact.setLastName(names[0]);
-					contact.setFirstName("");
-				} else {
-					contact.setFirstName(names[0]);
-					contact.setLastName("");
-				}
-				cachedContacts.add(contact);
-				break;
-			default:
-				break;
-			}
+		
+		List<WebElement> rows = getContactRows();
+		
+		for (WebElement row : rows) {
+		    ContactData contact = new ContactData()
+		        .setFirstName(row.findElement(By.xpath(".//td[3]")).getText())
+		        .setLastName(row.findElement(By.xpath(".//td[2]")).getText());
+		    cachedContacts.add(contact);
 		}
 		
 	}
 
 // --------------------------------------------------------------------------------------
 	
+	private List<WebElement> getContactRows() {
+		WebElement table = driver.findElement(By.id("maintable"));
+		if (table == null){
+			return new ArrayList<>();
+		}
+		List<WebElement> tableRows = table.findElements(By.tagName("tr"));
+		
+		if(tableRows.size()>1){
+			tableRows.remove(0);
+			tableRows.remove(tableRows.size()-1);
+		}
+		return tableRows;
+	}
+
 	public ContactHelper openNewContactPage() {
 		click(By.linkText("add new"));
 		return this;
