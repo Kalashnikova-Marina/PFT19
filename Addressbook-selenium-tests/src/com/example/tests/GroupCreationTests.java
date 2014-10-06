@@ -20,8 +20,8 @@ public class GroupCreationTests extends TestBase {
 		  return wrapGroupDataForDataProvider(loadGroupsFromCsvFile(new File("groups.txt"))).iterator();
 	}
 
-	  @DataProvider
-	  public Iterator<Object[]> groupsFromXmlFile() throws IOException {
+	 @DataProvider
+	 public Iterator<Object[]> groupsFromXmlFile() throws IOException {
 		  return wrapGroupDataForDataProvider(loadGroupsFromXmlFile(new File("groups.xml"))).iterator();
 	}
 

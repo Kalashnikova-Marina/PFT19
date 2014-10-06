@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.GroupData;
 import com.example.utils.SortedListOf;
 
-public class GroupHelper extends HelperBase {
+public class GroupHelper extends WebDriverHelperBase {
 
 	public GroupHelper(AppManager manager) {
 		super(manager);
@@ -18,13 +18,19 @@ public class GroupHelper extends HelperBase {
 
 	public SortedListOf<GroupData> getGroups() {
 		if (cachedGroups == null) {
-			rebuildCache();
+			rebuildDBCache();
 		}
 		return cachedGroups;
 
 	}
 
-	private void rebuildCache() {
+	private void rebuildDBCache() {
+		cachedGroups = new SortedListOf<GroupData>();
+		HibernateHelper hibernateHelper = new HibernateHelper(this.manager);
+		cachedGroups.addAll(hibernateHelper.listGroups());
+	}
+	
+	private void rebuildUiCache() {
 		cachedGroups = new SortedListOf<GroupData>();
 
 		manager.navigateTo().groupPage();
@@ -42,7 +48,7 @@ public class GroupHelper extends HelperBase {
 		fillGroupFields(group);
 		saveNewGroup();
 		backToGroupPage();
-		rebuildCache();
+		rebuildDBCache();
 		return this;
 	}
 
@@ -52,7 +58,7 @@ public class GroupHelper extends HelperBase {
 		fillGroupFields(group);
 		submitGroupModification();
 		backToGroupPage();
-		rebuildCache();
+		rebuildDBCache();
 		return this;
 	}
 
@@ -61,7 +67,7 @@ public class GroupHelper extends HelperBase {
 		selectGroupByIndex(index);
 		submitGroupDeletion();
 		backToGroupPage();
-		rebuildCache();
+		rebuildDBCache();
 		return this;
 	}
 

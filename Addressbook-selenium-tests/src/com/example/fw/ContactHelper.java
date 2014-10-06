@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.ContactData;
 import com.example.utils.SortedListOf;
 
-public class ContactHelper extends HelperBase {
+public class ContactHelper extends WebDriverHelperBase {
 	
 	public static boolean CREATION = true;
 	public static boolean MODIFICATION = false;
@@ -24,7 +24,7 @@ public class ContactHelper extends HelperBase {
 		enterContactData(contact, CREATION);
 		submitContactCreation();
 		backToHomePage();
-    	rebuildCache();
+    	rebuildDBCache();
 		return this;
 	}
 	
@@ -34,7 +34,7 @@ public class ContactHelper extends HelperBase {
 		enterContactData(contact, MODIFICATION);
 		submitContactModification();
 		backToHomePage();
-    	rebuildCache();
+    	rebuildDBCache();
 		return this;
 		}
 	
@@ -45,7 +45,7 @@ public class ContactHelper extends HelperBase {
 		enterContactData(contact, MODIFICATION);
 		submitContactModification();
 		backToHomePage();
-    	rebuildCache();
+    	rebuildDBCache();
 		return this;
 	}
 
@@ -54,7 +54,7 @@ public class ContactHelper extends HelperBase {
 		openEditContactPage(index);
 		pressDeleteButton();
 		backToHomePage();
-    	rebuildCache();
+    	rebuildDBCache();
 		return this;
 	}
 	
@@ -63,12 +63,18 @@ public class ContactHelper extends HelperBase {
 	public SortedListOf<ContactData> getContacts() {
 		
 		if (cachedContacts == null) {
-			rebuildCache();
+			rebuildDBCache();
 		}
 		return cachedContacts;
 	}
 
-	private void rebuildCache() {
+	private void rebuildDBCache() {
+		cachedContacts = new SortedListOf<ContactData>();
+		HibernateHelper hibernateHelper = new HibernateHelper(this.manager);
+		cachedContacts.addAll(hibernateHelper.listContacts());
+	}
+	
+	private void rebuildUiCache() {
 		cachedContacts = new SortedListOf<ContactData>();
 		
 		manager.navigateTo().mainPage();

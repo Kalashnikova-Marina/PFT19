@@ -1,11 +1,19 @@
 package com.example.tests;
 
 public class GroupData implements Comparable<GroupData> {
+	private String id;
 	private String groupname;
 	private String header;
 	private String footer;
 
-	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getGroupname() {
 		return groupname;
 	}
@@ -63,6 +71,11 @@ public class GroupData implements Comparable<GroupData> {
 	@Override
 	public int compareTo(GroupData other) {
 		return this.toString().toLowerCase().compareTo(other.toString().toLowerCase());
+	}
+
+	public GroupData withId(String id) {
+		this.id = id;
+		return this;
 	}
 
 	public GroupData withName(String groupname) {

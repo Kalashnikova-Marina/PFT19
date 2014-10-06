@@ -2,7 +2,7 @@ package com.example.fw;
 
 import org.openqa.selenium.By;
 
-public class NaviHelper extends HelperBase {
+public class NaviHelper extends WebDriverHelperBase {
 
 	public NaviHelper(AppManager manager) {
 		super(manager);

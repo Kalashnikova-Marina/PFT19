@@ -35,7 +35,7 @@ public class TestBase {
 
 	@DataProvider
 	public Iterator<Object[]> randomValidGroupGenerator() {
-		return wrapGroupDataForDataProvider(generateRandomGroups(5)).iterator();
+		return wrapGroupDataForDataProvider(generateRandomGroups(1)).iterator();
 	}
 
 	public static List<Object[]> wrapGroupDataForDataProvider(List<GroupData> groups) {
