@@ -20,7 +20,7 @@ public class ContactModificationTests extends TestBase {
 		app.getContactHelper().modifyContactFromMainPage(contact, index);
 
 		// save new state
-		SortedListOf<ContactData> newList = new SortedListOf<>(app.getContactHelper().getContacts());
+		SortedListOf<ContactData> newList = new SortedListOf<>(app.getContactHelper().getContactsFromUi());
 
 		// compare old and new states
 		assertThat(newList, equalTo(oldList.without(index).withAdded(contact)));
@@ -38,7 +38,7 @@ public class ContactModificationTests extends TestBase {
 		app.getContactHelper().modifyContactFromDetails(contact, index);
 
 		// save new state
-		SortedListOf<ContactData> newList = new SortedListOf<>(app.getContactHelper().getContacts());
+		SortedListOf<ContactData> newList = new SortedListOf<>(app.getContactHelper().getContactsFromUi());
 		
 		// compare old and new states
 		assertThat(newList, equalTo(oldList.without(index).withAdded(contact)));

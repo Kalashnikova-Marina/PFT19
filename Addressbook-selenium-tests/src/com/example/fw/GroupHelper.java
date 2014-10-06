@@ -30,16 +30,17 @@ public class GroupHelper extends WebDriverHelperBase {
 		cachedGroups.addAll(hibernateHelper.listGroups());
 	}
 	
-	private void rebuildUiCache() {
-		cachedGroups = new SortedListOf<GroupData>();
+	public SortedListOf <GroupData> getGroupsFromUI() {
+		SortedListOf <GroupData> uiGroups = new SortedListOf<GroupData>();
 
 		manager.navigateTo().groupPage();
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
 		for (WebElement checkbox : checkboxes) {
 			String title = checkbox.getAttribute("title");
 			String groupname = title.substring("Select (".length(), title.length() - ")".length());
-			cachedGroups.add(new GroupData().withName(groupname));
+			uiGroups.add(new GroupData().withName(groupname));
 		}
+		return uiGroups;
 	}
 
 	public GroupHelper createGroup(GroupData group) {

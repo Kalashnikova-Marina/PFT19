@@ -24,7 +24,7 @@ public class ContactRemovalTests extends TestBase {
 		app.getContactHelper().deleteContact(index);
 
 		// save new state
-		SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
+		SortedListOf<ContactData> newList = app.getContactHelper().getContactsFromUi();
 
 		// compare old and new states
 		assertThat(newList, equalTo(oldList.without(index)));

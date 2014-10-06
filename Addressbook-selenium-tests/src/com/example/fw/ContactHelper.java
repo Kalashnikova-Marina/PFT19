@@ -74,20 +74,18 @@ public class ContactHelper extends WebDriverHelperBase {
 		cachedContacts.addAll(hibernateHelper.listContacts());
 	}
 	
-	private void rebuildUiCache() {
-		cachedContacts = new SortedListOf<ContactData>();
+	public SortedListOf<ContactData> getContactsFromUi() {
+		SortedListOf<ContactData> uiContacts = new SortedListOf<ContactData>();
 		
-		manager.navigateTo().mainPage();
-		
+		manager.navigateTo().mainPage();		
 		List<WebElement> rows = getContactRows();
-		
 		for (WebElement row : rows) {
 		    ContactData contact = new ContactData()
 		        .setFirstName(row.findElement(By.xpath(".//td[3]")).getText())
 		        .setLastName(row.findElement(By.xpath(".//td[2]")).getText());
-		    cachedContacts.add(contact);
+		    uiContacts.add(contact);
 		}
-		
+		return uiContacts;
 	}
 
 // --------------------------------------------------------------------------------------
